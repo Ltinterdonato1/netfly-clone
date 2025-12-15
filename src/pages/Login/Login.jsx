@@ -4,6 +4,7 @@ import logo from '../../assets/logo.png'
 import { login, signup } from '../firebase'
 import newtflix_spinner from '../../assets/netflix_spinner.gif'
 
+
 const Login = () => {
 
   const [signState, setSignState] = useState("Sign In");
