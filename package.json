@@ -1,17 +1,17 @@
 {
-  "name": "netflix-clone" ,
+  "name": "netflix-clone",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "serve dist -s -l $PORT",
-    "heroku-postbuild": "npm run build"
-  },
+  "start": "node server.js",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject",
+  "heroku-postbuild": "npm run build"
+},
   "dependencies": {
+    "express": "^5.2.1",
     "firebase": "^12.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
