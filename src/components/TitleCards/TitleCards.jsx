@@ -341,4 +341,5 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
   );
 };
 
+
 export default TitleCards;
