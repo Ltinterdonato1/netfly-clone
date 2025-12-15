@@ -10,10 +10,8 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
   const [trailerCache, setTrailerCache] = useState({});
   const hoverTimerRef = useRef(null);
 
-  // ✅ My List cache
   const [inListMap, setInListMap] = useState({});
 
-  // ✅ modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalItem, setModalItem] = useState(null);
 
@@ -69,7 +67,9 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
       const data = await res.json();
 
       const best =
-        data?.results?.find((v) => v.site === "YouTube" && v.type === "Trailer") ||
+        data?.results?.find(
+          (v) => v.site === "YouTube" && v.type === "Trailer"
+        ) ||
         data?.results?.find((v) => v.site === "YouTube") ||
         null;
 
@@ -160,20 +160,27 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
   const updateArrows = () => {
     const el = rowRef.current;
     if (!el) return;
+
     const max = el.scrollWidth - el.clientWidth;
     setCanLeft(el.scrollLeft > 5);
     setCanRight(max - el.scrollLeft > 5);
   };
 
   useEffect(() => {
+    // run a couple times because images can change scrollWidth after paint
     updateArrows();
+    const t1 = setTimeout(updateArrows, 50);
+    const t2 = setTimeout(updateArrows, 350);
+
     const el = rowRef.current;
-    if (!el) return;
+    if (!el) return () => {};
 
     el.addEventListener("scroll", updateArrows, { passive: true });
     window.addEventListener("resize", updateArrows);
 
     return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
       el.removeEventListener("scroll", updateArrows);
       window.removeEventListener("resize", updateArrows);
     };
@@ -183,9 +190,17 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
     const el = rowRef.current;
     if (!el) return;
 
-    // big "page" scroll like Netflix
+    const max = el.scrollWidth - el.clientWidth;
+    if (max <= 0) return; // nothing to scroll
+
     const amount = Math.round(el.clientWidth * 0.92);
-    el.scrollBy({ left: dir * amount, behavior: "smooth" });
+    const next = Math.max(0, Math.min(max, el.scrollLeft + dir * amount));
+
+    el.scrollTo({ left: next, behavior: "smooth" });
+
+    // update arrows after the scroll starts
+    requestAnimationFrame(updateArrows);
+    setTimeout(updateArrows, 250);
   };
 
   return (
@@ -193,13 +208,16 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
       <div className="title-cards">
         {title && <h2>{title}</h2>}
 
-        {/* ✅ wrapper that arrows sit on top of */}
-        <div className="row-shell">
+        <div className="row-shell" onMouseEnter={updateArrows}>
           <button
             type="button"
             className={`row-arrow left ${canLeft ? "show" : ""}`}
             aria-label="Scroll left"
-            onClick={() => scrollRow(-1)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              scrollRow(-1);
+            }}
           >
             ‹
           </button>
@@ -208,12 +226,15 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
             type="button"
             className={`row-arrow right ${canRight ? "show" : ""}`}
             aria-label="Scroll right"
-            onClick={() => scrollRow(1)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              scrollRow(1);
+            }}
           >
             ›
           </button>
 
-          {/* ✅ THIS ref must be on the actual scroll container */}
           <div className="card-list" ref={rowRef}>
             {items.map((item, index) => {
               const id = item.id;
@@ -248,6 +269,7 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
                       alt={name}
                       className="card-img"
                       loading="lazy"
+                      onLoad={updateArrows}
                     />
 
                     {isHovered && (

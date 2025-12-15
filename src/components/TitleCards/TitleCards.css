@@ -9,7 +9,6 @@
   margin-top: 50px;
   margin-bottom: 30px;
 
-
   /* 🚨 CRITICAL */
   overflow: visible;
 }
@@ -21,12 +20,20 @@
   z-index: 999999;
 }
 
+/* ✅ wrapper that arrows sit on top of */
+.row-shell {
+  position: relative;
+  overflow: visible;
+  z-index: 2;
+}
 
 /* ===== ROW ===== */
 .card-list {
   display: flex;
   gap: 6px;
 
+  /* ✅ THESE TWO are what make scrollBy() actually work */
+  flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: visible;
 
@@ -38,9 +45,9 @@
 
   scroll-behavior: smooth;
   position: relative;
-
-  /* 🚨 CRITICAL */
   z-index: 1;
+
+  -webkit-overflow-scrolling: touch;
 }
 
 .card-list::-webkit-scrollbar {
@@ -51,6 +58,9 @@
 .card {
   position: relative;
   text-decoration: none;
+
+  /* ✅ THIS prevents shrink so the row can overflow */
+  flex: 0 0 auto;
 
   transform-origin: center bottom;
   transition: transform 0.18s ease;
@@ -262,145 +272,20 @@
   left: -50%;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 800px) {
-  .card-img {
-    width: 200px;
-  }
-
-  .card-hover {
-    width: 130%;
-    left: -15%;
-    top: -15%;
-  }
-}
-
-@media (max-width: 500px) {
-  .card-img {
-    width: 165px;
-  }
-
-  .card-hover {
-    width: 120%;
-    left: -10%;
-  }
-}
-
-.row-shell {
-  position: relative;
-  z-index: 300000;
-}
-
-/* the arrows overlay the row */
-.row-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 400000; /* above cards */
-  cursor: pointer;
-
-  background: transparent;
-  color: #fff;
-
-  font-size: 54px;
-  line-height: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease, background 0.15s ease;
-}
-/* align arrows with the visible row content */
-.row-arrow.left {
-  left: 4px;          /* matches .card-list padding-left */
-  border-radius: 10px;
-}
-
-.row-arrow.right {
-  right: 40px;         /* matches .card-list padding-right */
-  border-radius: 10px;
-}
-
-/* only show arrows when the row is hovered AND that direction is possible */
-.row-shell:hover .row-arrow.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-
-
-.row-arrow.left {
-  left: 0;
-  border-radius: 0 10px 10px 0;
-}
-
-.row-arrow.right {
-  right: 0;
-  border-radius: 10px 0 0 10px;
-}
-
-/* mobile: always show (scrolling is hardest here) */
-@media (max-width: 700px) {
-  .row-arrow {
-    opacity: 1;
-    pointer-events: auto;
-    width: 0px;
-    height: 110px;
-    font-size: 50px;
-  }
-}
-
-/* ==== ARROW ALIGNMENT FIX (paste at very bottom) ==== */
-
-/* this centers arrows on the posters, not on the padded row */
-.row-arrow {
-  top: 80px;               /* 8px padding-top + ~70px half poster height */
-  transform: translateY(-50%);
-  height: 120px;           /* match poster area */
-}
-
-/* match the poster padding exactly */
-.row-arrow.left {
-  left: -10px;
-}
-
-.row-arrow.right {
-  right: -10px;
-}
-
-/* mobile: posters are smaller so center a bit higher */
-@media (max-width: 700px) {
-  .row-arrow {
-    top: 65px;
-    height: 110px;
-  }
-}
-
 /* =========================
-   ROW ARROWS (ONLY ONE SET)
+   ROW ARROWS
    ========================= */
-
-.row-shell {
-  position: relative;
-  overflow: visible;
-  z-index: 2;
-}
-
 .row-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 400000;
+  z-index: 200000;
 
   width: 56px;
   height: 120px;
-
   border: 0;
-  cursor: pointer;
 
+  cursor: pointer;
   background: rgba(35, 35, 35, 0.75);
   color: #fff;
 
@@ -426,13 +311,37 @@
 }
 
 .row-arrow.left {
-  left: 24px;  /* same as your .card-list padding-left */
+  left: 24px;
   border-radius: 10px;
 }
 
 .row-arrow.right {
-  right: 20px; /* same as your .card-list padding-right */
+  right: 20px;
   border-radius: 10px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 800px) {
+  .card-img {
+    width: 200px;
+  }
+
+  .card-hover {
+    width: 130%;
+    left: -15%;
+    top: -15%;
+  }
+}
+
+@media (max-width: 500px) {
+  .card-img {
+    width: 165px;
+  }
+
+  .card-hover {
+    width: 120%;
+    left: -10%;
+  }
 }
 
 @media (max-width: 700px) {
