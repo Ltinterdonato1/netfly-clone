@@ -13,3 +13,17 @@ body{
   color: white;
   font-family: 'Poppins', sans-serif;
 }
+html, body, #root {
+  height: 100%;
+}
+
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+.more-cards {
+  flex: 1; /* pushes the footer down */
+}

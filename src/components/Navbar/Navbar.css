@@ -1,15 +1,27 @@
+/* ===== Navbar Base ===== */
 .navbar {
   width: 100%;
   padding: 20px 6%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: fixed;
   font-size: 14px;
   color: #e5e5e5;
-  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7) 10%, transparent);
-  z-index: 1;
+  background-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.7) 10%,
+    transparent
+  );
+  z-index: 100;
 }
 
+.nav-dark {
+  background-color: #141414;
+  transition: background-color 0.4s ease;
+}
+
+/* ===== Left Side ===== */
 .navbar-left {
   display: flex;
   align-items: center;
@@ -30,17 +42,24 @@
   cursor: pointer;
 }
 
-.navbar-left ul li.home {
-  color: white;
+.navbar-left ul li a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 400;
 }
 
+.navbar-left ul li a:hover {
+  color: #fff;
+}
+
+/* ===== Right Side ===== */
 .navbar-right {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.navbar-right .icon {
+.navbar-right .icons {
   width: 20px;
   cursor: pointer;
 }
@@ -51,6 +70,7 @@
   cursor: pointer;
 }
 
+/* ===== Profile / Dropdown ===== */
 .navbar-profile {
   display: flex;
   align-items: center;
@@ -59,106 +79,128 @@
   position: relative;
 }
 
-/* Dropdown menu */
-.navbar .dropdown {
+/* Dropdown Container */
+.dropdown {
   position: absolute;
-  top: 50px; /* Reduced to close the gap */
+  top: 50px;
   right: 0;
-  min-width: 200px;
+  min-width: 220px;
   background-color: #000;
   border: 1px solid #333;
   border-radius: 4px;
   padding: 10px 0;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.6);
-  z-index: 10;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
   display: none;
   opacity: 0;
   transition: opacity 0.2s ease;
 }
 
-.dropdown ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdown li a {
-  display: block;
-  padding: 14px 20px; /* More vertical padding for spacing */
-  color: white;
-  text-decoration: none; /* No underline */
-  font-size: 14px;
-}
-
-.dropdown li a:hover {
-  background-color: #333;
-  text-decoration: none; /* No underline on hover */
-}
-
-/* Sign Out styling */
-.dropdown li:last-child a {
-  border-top: 1px solid #333;
-  margin-top: 8px;
-  padding-top: 18px;
-}
-
-/* Show dropdown on hover of profile OR dropdown itself */
+/* Show dropdown on hover */
 .navbar-profile:hover .dropdown,
 .dropdown:hover {
   display: block;
   opacity: 1;
 }
 
-.nav-dark {
-  background-color: #141414;
-  transition: background-color 0.5s ease;
+/* Dropdown list */
+.dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
+/* Dropdown links + buttons */
+.dropdown li a.dropdown-link,
+.dropdown li button.dropdown-link {
+  width: 100%;
+  background: none;
+  border: none;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.dropdown li a.dropdown-link:hover,
+.dropdown li button.dropdown-link:hover {
+  background-color: #333;
+}
+
+/* Dropdown icons */
+.dropdown-icon {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+}
+
+/* Sign out divider */
+.sign-out-item a,
+.sign-out-item button {
+  justify-content: center;
+  border-top: 1px solid #333;
+  margin-top: 8px;
+  padding-top: 18px;
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 800px) {
   .navbar {
     padding: 20px 4%;
   }
+
   .navbar-left ul {
     display: none;
   }
+
   .navbar-left img {
-    height: 25px;
+    width: 70px;
   }
 }
 
 @media (max-width: 500px) {
   .navbar-left img {
-    height: 20px;
+    width: 60px;
   }
+
   .navbar-right {
-    gap: 10px;
+    gap: 12px;
   }
 }
-
-.dropdown-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 16px;
-  vertical-align: middle;
-  color: white; /* Ensures white color */
+/* Keep dropdown open while hovering the profile area OR the dropdown */
+.navbar-profile {
+  position: relative;
 }
 
-.dropdown li a {
-  display: flex;
-  align-items: center;
-  padding: 14px 20px;
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
+/* make dropdown clickable */
+.navbar-profile .dropdown {
+  pointer-events: auto;
 }
 
-.dropdown li a:hover {
-  background-color: #333;
+/* ✅ This creates an invisible "hover bridge" so your mouse can move down */
+.navbar-profile::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 260px;     /* match dropdown width (adjust if needed) */
+  height: 18px;     /* the buffer gap */
+  background: transparent;
 }
 
-.sign-out-item a {
-  justify-content: center;
-  border-top: 1px solid #333;
-  margin-top: 8px;
-  padding-top: 18px;
+/* ✅ show dropdown when hovering profile OR the dropdown itself */
+.navbar-profile:hover .dropdown,
+.navbar-profile .dropdown:hover {
+  display: block;
+}
+
+/* Optional: if you have a fade animation, slow it down a touch */
+.navbar-profile .dropdown {
+  transition: opacity 0.15s ease;
 }

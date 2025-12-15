@@ -8,12 +8,12 @@ import info_icon from "../../assets/info_icon.png";
 import TitleCards from "../../components/TitleCards/TitleCards";
 import Footer from "../../components/Footer/Footer";
 
-const Home = () => {
+const TVShows = () => {
   return (
     <div className="home">
       <Navbar />
 
-      {/* HERO (overlay layout – unchanged) */}
+      {/* HERO (same as Home) */}
       <div className="hero">
         <img src={hero_banner} alt="" className="banner-img" />
 
@@ -25,6 +25,7 @@ const Home = () => {
             enemy.
           </p>
 
+          {/* ✅ Buttons (so you actually have "info" on the TV page too) */}
           <div className="hero-btns">
             <button className="btn">
               <img src={play_icon} alt="" />
@@ -38,13 +39,8 @@ const Home = () => {
         </div>
       </div>
 
-      {/* TitleCards START AFTER hero */}
+      {/* ✅ TV rows start AFTER hero (not inside hero-caption) */}
       <div className="more-cards">
-        
-        <TitleCards title="Blockbuster Movies" category="top_rated" />
-        <TitleCards title="Only on Netflix" category="popular" />
-        <TitleCards title="Upcoming" category="upcoming" />
-        <TitleCards title="Top Picks for You" category="now_playing" />
         <TitleCards type="tv" title="Popular TV" category="popular" />
         <TitleCards type="tv" title="Top Rated TV" category="top_rated" />
         <TitleCards type="tv" title="Airing Today" category="airing_today" />
@@ -56,4 +52,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default TVShows;

@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import DetailsModal from "../DetailsModal";
 import { addToMyList, removeFromMyList, isInMyList } from "../../pages/firebase";
 
+
+
+
 const TitleCards = ({ title, category = "popular", type = "movie" }) => {
   const [items, setItems] = useState([]);
   const [hoveredKey, setHoveredKey] = useState(null);
@@ -11,7 +14,6 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
   const hoverTimerRef = useRef(null);
 
   const [inListMap, setInListMap] = useState({});
-
   const [modalOpen, setModalOpen] = useState(false);
   const [modalItem, setModalItem] = useState(null);
 
@@ -67,9 +69,7 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
       const data = await res.json();
 
       const best =
-        data?.results?.find(
-          (v) => v.site === "YouTube" && v.type === "Trailer"
-        ) ||
+        data?.results?.find((v) => v.site === "YouTube" && v.type === "Trailer") ||
         data?.results?.find((v) => v.site === "YouTube") ||
         null;
 
@@ -156,18 +156,19 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
     setModalItem(null);
   };
 
-  // ✅ arrow enable/disable
+  // ✅ Arrow enable/disable
   const updateArrows = () => {
     const el = rowRef.current;
     if (!el) return;
 
+    // Sometimes widths update after images paint, so keep it simple
     const max = el.scrollWidth - el.clientWidth;
+
     setCanLeft(el.scrollLeft > 5);
     setCanRight(max - el.scrollLeft > 5);
   };
 
   useEffect(() => {
-    // run a couple times because images can change scrollWidth after paint
     updateArrows();
     const t1 = setTimeout(updateArrows, 50);
     const t2 = setTimeout(updateArrows, 350);
@@ -186,19 +187,16 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
     };
   }, [items]);
 
+  // ✅ THIS IS THE FIX: DO NOT early-return based on max
   const scrollRow = (dir) => {
     const el = rowRef.current;
     if (!el) return;
 
-    const max = el.scrollWidth - el.clientWidth;
-    if (max <= 0) return; // nothing to scroll
-
     const amount = Math.round(el.clientWidth * 0.92);
-    const next = Math.max(0, Math.min(max, el.scrollLeft + dir * amount));
 
-    el.scrollTo({ left: next, behavior: "smooth" });
+    // Force movement even if max math is weird
+    el.scrollLeft = el.scrollLeft + dir * amount;
 
-    // update arrows after the scroll starts
     requestAnimationFrame(updateArrows);
     setTimeout(updateArrows, 250);
   };
@@ -340,6 +338,5 @@ const TitleCards = ({ title, category = "popular", type = "movie" }) => {
     </>
   );
 };
-
 
 export default TitleCards;

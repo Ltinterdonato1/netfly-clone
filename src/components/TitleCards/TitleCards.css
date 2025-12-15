@@ -1,5 +1,5 @@
 /* =========================
-   TitleCards.css (FINAL)
+   TitleCards.css (CLEAN FULL)
    ========================= */
 
 /* ===== SECTION ===== */
@@ -8,19 +8,18 @@
   z-index: 0;
   margin-top: 50px;
   margin-bottom: 30px;
-
-  /* 🚨 CRITICAL */
   overflow: visible;
 }
 
 .title-cards h2 {
   margin-bottom: 8px;
 }
+
 .title-cards:hover {
   z-index: 999999;
 }
 
-/* ✅ wrapper that arrows sit on top of */
+/* ===== ROW WRAPPER (for arrows) ===== */
 .row-shell {
   position: relative;
   overflow: visible;
@@ -32,7 +31,6 @@
   display: flex;
   gap: 6px;
 
-  /* ✅ THESE TWO are what make scrollBy() actually work */
   flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: visible;
@@ -45,8 +43,8 @@
 
   scroll-behavior: smooth;
   position: relative;
-  z-index: 1;
 
+  z-index: 1;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -59,13 +57,9 @@
   position: relative;
   text-decoration: none;
 
-  /* ✅ THIS prevents shrink so the row can overflow */
   flex: 0 0 auto;
-
   transform-origin: center bottom;
   transition: transform 0.18s ease;
-
-  /* 🚨 CRITICAL */
   overflow: visible;
 }
 
@@ -78,12 +72,9 @@
 .card-wrapper {
   position: relative;
   border-radius: 8px;
-
-  /* 🚨 MUST BE VISIBLE */
   overflow: visible;
 }
 
-/* subtle Netflix shadow */
 .card:hover .card-wrapper {
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.75);
 }
@@ -131,18 +122,14 @@
 }
 
 /* =========================
-   🔥 HOVER CARD (KEY FIX)
+   HOVER CARD
    ========================= */
 .card-hover {
   position: absolute;
-
   top: -22%;
   left: -25%;
   width: 150%;
-
-  /* 🚨 GLOBAL OVERLAY */
   z-index: 100000;
-
   pointer-events: auto;
 }
 
@@ -150,7 +137,6 @@
 .card-preview {
   aspect-ratio: 16 / 9;
   background: #000;
-
   border-radius: 10px 10px 0 0;
   overflow: hidden;
 }
@@ -170,19 +156,16 @@
     rgba(20, 20, 20, 0.95),
     rgba(0, 0, 0, 0.98)
   );
-
   padding: 14px;
   border-radius: 0 0 10px 10px;
 }
 
-/* ===== CONTROLS ===== */
 .card-controls {
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
 }
 
-/* ===== BUTTONS ===== */
 .card-control-btn {
   all: unset;
   box-sizing: border-box;
@@ -213,7 +196,6 @@
   color: #000;
 }
 
-/* ===== ICONS ===== */
 .icon-play {
   width: 0;
   height: 0;
@@ -227,17 +209,20 @@
   height: 16px;
   position: relative;
 }
+
 .icon-plus::before,
 .icon-plus::after {
   content: "";
   position: absolute;
   background: #fff;
 }
+
 .icon-plus::before {
   width: 16px;
   height: 3px;
   top: 6.5px;
 }
+
 .icon-plus::after {
   width: 3px;
   height: 16px;
@@ -256,7 +241,6 @@
   transform: rotate(45deg);
 }
 
-/* ===== TITLE UNDER PREVIEW ===== */
 .card-hover-title {
   font-size: 14px;
   font-weight: 700;

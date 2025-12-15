@@ -1,108 +1,238 @@
+/* =========================
+   HOME PAGE
+   ========================= */
+
+.home {
+  background: #000;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #000;
+}
+
+/* HERO */
 .hero {
-    position: relative;
+  position: relative;
+
+  /* ✅ This is the Netflix trick: hero takes up space even though caption is absolute */
+  height: 72vh;
+  min-height: 520px;
+  max-height: 820px;
+
+  overflow: hidden;
 }
 
 .banner-img {
-    width: 100%;
-    mask-image: linear-gradient(to right, transparent, black, 75%);
-    -weblit-mask-image: linear-gradient(to right, transparent, black, 75%);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  /* your fade */
+  mask-image: linear-gradient(to right, transparent, black, 75%);
+  -webkit-mask-image: linear-gradient(to right, transparent, black, 75%);
 }
 
+/* Caption overlay */
 .hero-caption {
-    position: absolute;
-    width: 100%;
-    padding-left: 6%;
-    bottom: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 130px;
+
+  padding-left: 6%;
+  padding-bottom: 70px;
 }
 
 .caption-img {
-    width: 90%;
-    max-width: 420px;
-    margin-bottom: 30px;
-}
-.hero-caption p {
-    max-width: 700px;
-    font-size: 17px;
-    margin-bottom: 20px;
+  width: 90%;
+  max-width: 420px;
+  margin-bottom: 18px;
 }
 
+.hero-caption p {
+  max-width: 700px;
+  font-size: 17px;
+  margin-bottom: 18px;
+  line-height: 1.35;
+  opacity: 0.95;
+}
+
+/* Buttons */
 .hero-btns {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 50px;
+  display: flex;
+  gap: 10px;
 }
 
 .hero-btns .btn img {
-    width: 25px;
+  width: 25px;
 }
 
 .hero-btns .btn {
-    border: 0;
-    outline: 0;
-    padding: 8px 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    border-radius: 4px;
-    background-color: white;
+  border: 0;
+  outline: 0;
+  padding: 8px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: #fff;
 }
 
 .hero-btns .btn.dark-btn {
-    color: #fff;
-    background-color: #6d6d6eb3;
+  color: #fff;
+  background-color: rgba(109, 109, 110, 0.7);
 }
 
 .hero-btns .btn:hover {
-    background-color:#ffffffbf;
-}
-.hero-btns .btn.dark-btn:hover {
-    background-color: #6d6d6e66;
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
+.hero-btns .btn.dark-btn:hover {
+  background-color: rgba(109, 109, 110, 0.45);
+}
+/* =========================
+   PAGES WITH NO HERO (My List, etc.)
+   ========================= */
+.home.no-hero .more-cards {
+  margin-top: 0 !important;      /* ✅ stop the hero overlap */
+  padding-top: 110px;            /* ✅ space under navbar */
+  padding-bottom: 60px;
+}
+
+/* Optional: tighter spacing for My List specifically */
+.home.no-hero.mylist-page .more-cards {
+  padding-top: 120px;
+}
+
+/* Optional: My List title spacing like Netflix */
+.home.no-hero.mylist-page h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+/* =========================
+   ROWS AREA (Netflix spacing)
+   ========================= */
+
 .more-cards {
-    padding: 6%;
+  position: relative;
+  z-index: 2;
+    flex: 1;
+  /* ✅ left/right padding like Netflix */
+  padding: 0 4% 60px;
+
+  /* ✅ Netflix overlap: pull rows up into hero */
+  margin-top: -220px;
 }
+
+/* Give rows breathing room */
+.more-cards .title-cards {
+  margin-top: 40px;
+  margin-bottom: -150px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
 @media (max-width: 1024px) {
-    .hero-caption  .title-cards{
-        display: none;
-    }
-  
-    .hero-btns {
-        margin-bottom: 30px;
-    }
+  .hero {
+    height: 64vh;
+    min-height: 460px;
+  }
+
+  .hero-caption {
+    padding-left: 4%;
+    padding-bottom: 55px;
+  }
+
+  .more-cards {
+    padding: 0 4% 50px;
+    margin-top: -95px;
+  }
 }
+
 @media (max-width: 800px) {
-    .hero-caption {
-        padding-left: 4%;
-    }
-    .caption-img {
-        width: 40%;
-        margin-bottom: 10px;
-    }
-    .hero-caption p {
-        font-size: 12px;
-        margin-bottom: 10px;
-    }
-    .hero-btns .btn img{
-        width: 20px;
-    }
-    .more-cards {
-        padding-left: 4%;
-    }
+  .hero {
+    height: 58vh;
+    min-height: 420px;
+  }
+
+  .caption-img {
+    width: 42%;
+    margin-bottom: 10px;
+  }
+
+  .hero-caption p {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .hero-btns .btn img {
+    width: 20px;
+  }
+
+  .more-cards {
+    margin-top: -70px;
+  }
 }
+
 @media (max-width: 500px) {
-    .caption-img {
-        display: none;
-    }
-    .hero-btns .btn img {
-        width: 15px;
-    }
-    .hero-btns .btn {
-        padding: 4px 10px;
-        font-size: 10px;
-        gap: 5px;
-    }
+  .hero {
+    height: 52vh;
+    min-height: 360px;
+  }
+
+  .caption-img {
+    display: none;
+  }
+
+  .hero-btns .btn img {
+    width: 15px;
+  }
+
+  .hero-btns .btn {
+    padding: 4px 10px;
+    font-size: 10px;
+    gap: 6px;
+  }
+
+  .more-cards {
+    margin-top: -55px;
+  }
+}
+/* ✅ Allow hover cards to overlap the whole page */
+html, body, #root {
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+/* ✅ Make sure none of the page wrappers clip the hover card */
+.home,
+.more-cards,
+.title-cards,
+.card-list {
+  overflow: visible !important;
+}
+
+/* ✅ If any parent uses transforms/filters, the hover gets trapped.
+   This forces the row to be the top stacking layer. */
+.more-cards {
+  position: relative;
+  z-index: 5;
+}
+
+.title-cards {
+  position: relative;
+  z-index: 6;
+}
+
+.card-list {
+  position: relative;
+  z-index: 7;
 }

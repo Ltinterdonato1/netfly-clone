@@ -45,10 +45,6 @@ const Home = () => {
         <TitleCards title="Only on Netflix" category="popular" />
         <TitleCards title="Upcoming" category="upcoming" />
         <TitleCards title="Top Picks for You" category="now_playing" />
-        <TitleCards type="tv" title="Popular TV" category="popular" />
-        <TitleCards type="tv" title="Top Rated TV" category="top_rated" />
-        <TitleCards type="tv" title="Airing Today" category="airing_today" />
-        <TitleCards type="tv" title="On The Air" category="on_the_air" />
       </div>
 
       <Footer />
