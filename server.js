@@ -1,12 +1,13 @@
 const express = require('express');
 const path = require('path');
-const port = process.env.PORT || 5000;
+// Heroku sets the port dynamically using the PORT environment variable
+const port = process.env.PORT || 5000; 
 const app = express();
 
-// Serve static files from the build folder
+// Serve the static files from the build folder
 app.use(express.static(path.join(__dirname, 'build')));
 
-// Handles any requests that don't match the above routes
+// Any unknown request is served by index.html (important for React Router)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
